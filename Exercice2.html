@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galerie Chiens — Exercice 2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --mint: #C8F0D8;
+      --mint-dark: #3DBE72;
+      --mint-darker: #1A8A4A;
+      --mint-soft: #F0FBF4;
+      --mint-light: #DFF6E8;
+      --rose: #F5A0BC;
+      --lavender: #DFC8F5;
+      --white: #FFFFFF;
+      --text: #0F3320;
+      --text-muted: #5A876A;
+      --shadow: rgba(61, 190, 114, 0.18);
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      min-height: 100vh;
+      background: var(--mint-soft);
+      background-image: radial-gradient(circle at 85% 5%, var(--lavender) 0%, transparent 30%),
+        radial-gradient(circle at 5% 95%, var(--rose) 0%, transparent 28%);
+      color: var(--text);
+      padding: 48px 20px;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    /* === HEADER === */
+    .page-header {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 8px;
+    }
+
+    .header-badge {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(145deg, var(--mint), var(--mint-dark));
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.7rem;
+      box-shadow: 0 6px 20px var(--shadow);
+      flex-shrink: 0;
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    h1 em {
+      font-style: normal;
+      color: var(--mint-darker);
+    }
+
+    .muted {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-top: 4px;
+      font-weight: 500;
+      margin-bottom: 28px;
+    }
+
+    /* === PANEL CONTRÔLES === */
+    .controls-panel {
+      background: var(--white);
+      border-radius: 20px;
+      padding: 22px 26px;
+      margin-bottom: 24px;
+      box-shadow: 0 2px 20px rgba(61, 190, 114, 0.1), 0 1px 4px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: flex-end;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .field label {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--mint-darker);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    input,
+    select {
+      padding: 12px 16px;
+      border: 2px solid var(--mint-light);
+      border-radius: 12px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.9rem;
+      color: var(--text);
+      background: var(--mint-soft);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+      font-weight: 600;
+      width: 100%;
+    }
+
+    input::placeholder {
+      color: #8BB89A;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--mint-dark);
+      background: var(--white);
+      box-shadow: 0 0 0 4px rgba(61, 190, 114, 0.18);
+    }
+
+    select option {
+      background: var(--white);
+      color: var(--text);
+    }
+
+    button {
+      padding: 12px 22px;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    #randomBtn {
+      background: linear-gradient(135deg, var(--mint), var(--mint-dark));
+      color: #fff;
+      box-shadow: 0 4px 14px var(--shadow);
+      box-shadow: 0 4px 14px rgba(61, 190, 114, 0.3);
+      align-self: flex-end;
+      white-space: nowrap;
+    }
+
+    #randomBtn:hover {
+      box-shadow: 0 6px 20px rgba(61, 190, 114, 0.4);
+    }
+
+    /* === MESSAGES === */
+    .msg {
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      display: none;
+      margin-bottom: 18px;
+      animation: pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes pop {
+      from {
+        opacity: 0;
+        transform: scale(0.92);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .msg.ok {
+      background: var(--mint-light);
+      color: var(--mint-darker);
+      border: 1px solid var(--mint);
+    }
+
+    .msg.err {
+      background: #FEE2E2;
+      color: #991B1B;
+      border: 1px solid #FCA5A5;
+    }
+
+    /* === GRILLE === */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      background: var(--white);
+      border-radius: 18px;
+      overflow: hidden;
+      border: 2px solid var(--mint-light);
+      box-shadow: 0 2px 14px rgba(61, 190, 114, 0.1);
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+      cursor: pointer;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: var(--mint-dark);
+      box-shadow: 0 10px 30px rgba(61, 190, 114, 0.22);
+    }
+
+    .card img {
+      width: 100%;
+      height: 195px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .card .cap {
+      padding: 10px 14px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--mint-darker);
+      text-transform: capitalize;
+      background: var(--mint-soft);
+      border-top: 2px solid var(--mint-light);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .card .cap::before {
+      content: '🐕';
+      font-size: 0.9rem;
+    }
+
+    .empty {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .empty-icon {
+      font-size: 3rem;
+      margin-bottom: 12px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="page-header">
+      <div class="header-badge">🐕</div>
+      <div>
+        <h1>Exercice 2 — <em>Galerie de Chiens</em></h1>
+      </div>
+    </div>
+    <p class="muted">API Dog CEO — Parcourez les races et leurs photos</p>
+
+    <div class="controls-panel">
+      <div class="field">
+        <label>🔍 Rechercher une race</label>
+        <input id="search" type="text" placeholder="ex: retriever, bulldog..." />
+      </div>
+      <div class="field">
+        <label>🐶 Sélectionner la race</label>
+        <select id="breedsSelect">
+          <option value="">Chargement des races...</option>
+        </select>
+      </div>
+      <div class="field" style="min-width:120px; max-width:160px;">
+        <label>📸 Nb d'images</label>
+        <select id="limitSelect">
+          <option>12</option>
+          <option selected>24</option>
+          <option>48</option>
+          <option>96</option>
+        </select>
+      </div>
+      <button id="randomBtn">🎲 Image aléatoire</button>
+    </div>
+
+    <div id="msg" class="msg"></div>
+
+    <div id="grid" class="grid">
+      <div class="empty">
+        <div class="empty-icon">🐾</div>
+        Sélectionne une race pour afficher des photos.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const LIST_API = "https://dog.ceo/api/breeds/list/all";
+    const selectEl = document.getElementById("breedsSelect");
+    const searchEl = document.getElementById("search");
+    const gridEl = document.getElementById("grid");
+    const msgEl = document.getElementById("msg");
+    const limitSelect = document.getElementById("limitSelect");
+    const randomBtn = document.getElementById("randomBtn");
+
+    let allBreeds = [];
+
+    function showMessage(text, type = "ok") {
+      msgEl.textContent = text;
+      msgEl.className = `msg ${type}`;
+      msgEl.style.display = "block";
+      setTimeout(() => (msgEl.style.display = "none"), 2500);
+    }
+
+    function setLoadingSelect(isLoading) {
+      selectEl.disabled = isLoading;
+      searchEl.disabled = isLoading;
+    }
+
+    function populateSelect(breeds) {
+      selectEl.innerHTML = "";
+      const opt0 = document.createElement("option");
+      opt0.value = "";
+      opt0.textContent = "— Choisir une race —";
+      selectEl.appendChild(opt0);
+      breeds.forEach((b) => {
+        const opt = document.createElement("option");
+        opt.value = b;
+        opt.textContent = b;
+        selectEl.appendChild(opt);
+      });
+    }
+
+    function filterBreeds(query) {
+      const q = query.trim().toLowerCase();
+      if (!q) return allBreeds;
+      return allBreeds.filter((b) => b.toLowerCase().includes(q));
+    }
+
+    function renderImages(urls, breedLabel) {
+      gridEl.innerHTML = "";
+      if (urls.length === 0) {
+        gridEl.innerHTML = '<div class="empty"><div class="empty-icon">🔍</div>Aucune image trouvée.</div>';
+        return;
+      }
+      urls.forEach((u, idx) => {
+        const card = document.createElement("div");
+        card.className = "card";
+        const img = document.createElement("img");
+        img.src = u;
+        img.alt = `${breedLabel} ${idx + 1}`;
+        img.loading = "lazy";
+        const cap = document.createElement("div");
+        cap.className = "cap";
+        cap.textContent = breedLabel;
+        card.appendChild(img);
+        card.appendChild(cap);
+        gridEl.appendChild(card);
+      });
+    }
+
+    function getImagesEndpoint(breedValue) {
+      const parts = breedValue.split("/");
+      if (parts.length === 1) return `https://dog.ceo/api/breed/${parts[0]}/images`;
+      return `https://dog.ceo/api/breed/${parts[0]}/${parts[1]}/images`;
+    }
+
+    function getRandomEndpoint(breedValue) {
+      const parts = breedValue.split("/");
+      if (parts.length === 1) return `https://dog.ceo/api/breed/${parts[0]}/images/random`;
+      return `https://dog.ceo/api/breed/${parts[0]}/${parts[1]}/images/random`;
+    }
+
+    async function loadBreeds() {
+      try {
+        setLoadingSelect(true);
+        const res = await fetch(LIST_API);
+        if (!res.ok) throw new Error("Erreur GET races");
+        const data = await res.json();
+        const obj = data.message;
+        const out = [];
+        for (const breed in obj) {
+          const subs = obj[breed];
+          if (!subs || subs.length === 0) {
+            out.push(breed);
+          } else {
+            subs.forEach((sub) => out.push(`${breed}/${sub}`));
+          }
+        }
+        allBreeds = out.sort();
+        populateSelect(allBreeds);
+        showMessage(`${allBreeds.length} races chargées ✅`);
+      } catch (err) {
+        showMessage("Erreur lors du chargement des races ❌", "err");
+        selectEl.innerHTML = "<option value=''>Erreur de chargement</option>";
+      } finally {
+        setLoadingSelect(false);
+      }
+    }
+
+    async function loadImagesForSelectedBreed() {
+      const breed = selectEl.value;
+      if (!breed) {
+        gridEl.innerHTML = '<div class="empty"><div class="empty-icon">🐾</div>Sélectionne une race pour afficher des photos.</div>';
+        return;
+      }
+      const limit = parseInt(limitSelect.value, 10) || 24;
+      try {
+        gridEl.innerHTML = '<div class="empty"><div class="empty-icon">⏳</div>Chargement des images...</div>';
+        const res = await fetch(getImagesEndpoint(breed));
+        if (!res.ok) throw new Error("Erreur GET images");
+        const data = await res.json();
+        renderImages(data.message.slice(0, limit), breed);
+        showMessage(`${Math.min(data.message.length, limit)} photos pour "${breed}" ✅`);
+      } catch (err) {
+        showMessage("Erreur lors du chargement des images ❌", "err");
+        gridEl.innerHTML = '<div class="empty"><div class="empty-icon">❌</div>Impossible de charger les images.</div>';
+      }
+    }
+
+    async function loadRandomImage() {
+      const breed = selectEl.value;
+      if (!breed) { showMessage("Choisis une race d'abord.", "err"); return; }
+      try {
+        const res = await fetch(getRandomEndpoint(breed));
+        if (!res.ok) throw new Error("Erreur random");
+        const data = await res.json();
+        renderImages([data.message], breed);
+        showMessage(`Image aléatoire pour "${breed}" 🎲`);
+      } catch (err) {
+        showMessage("Erreur image aléatoire ❌", "err");
+      }
+    }
+
+    selectEl.addEventListener("change", loadImagesForSelectedBreed);
+    limitSelect.addEventListener("change", () => { if (selectEl.value) loadImagesForSelectedBreed(); });
+    searchEl.addEventListener("input", () => {
+      populateSelect(filterBreeds(searchEl.value));
+      gridEl.innerHTML = '<div class="empty"><div class="empty-icon">🐾</div>Sélectionne une race pour afficher des photos.</div>';
+    });
+    randomBtn.addEventListener("click", loadRandomImage);
+
+    loadBreeds();
+  </script>
+</body>
+
+</html>

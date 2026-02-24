@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Convertisseur de Devises — Exercice 3</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --blue: #A8D8F5;
+      --blue-dark: #2B8FD0;
+      --blue-darker: #1A5F9A;
+      --blue-soft: #F0F8FE;
+      --blue-light: #D6EDFB;
+      --rose: #F5A0BC;
+      --yellow: #F0E8A0;
+      --white: #FFFFFF;
+      --text: #0F2840;
+      --text-muted: #5A80A8;
+      --shadow: rgba(43, 143, 208, 0.18);
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      min-height: 100vh;
+      background: var(--blue-soft);
+      background-image: radial-gradient(circle at 90% 5%, var(--rose) 0%, transparent 28%),
+        radial-gradient(circle at 5% 90%, var(--yellow) 0%, transparent 30%);
+      color: var(--text);
+      padding: 48px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 680px;
+    }
+
+    /* === HEADER === */
+    .page-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .header-badge {
+      width: 68px;
+      height: 68px;
+      background: linear-gradient(145deg, var(--blue), var(--blue-dark));
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 16px;
+      box-shadow: 0 8px 24px var(--shadow);
+    }
+
+    h1 {
+      font-size: 1.85rem;
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    h1 em {
+      font-style: normal;
+      color: var(--blue-dark);
+    }
+
+    .muted {
+      margin-top: 6px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 0;
+    }
+
+    /* === CARD === */
+    .card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 32px;
+      box-shadow: 0 4px 30px rgba(43, 143, 208, 0.12), 0 1px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    /* === SECTION TITRES === */
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--blue-darker);
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* === FORMULAIRE === */
+    .form-row {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      margin-bottom: 16px;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex: 1;
+      min-width: 180px;
+    }
+
+    .field label {
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--blue-darker);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 13px 16px;
+      border: 2px solid var(--blue-light);
+      border-radius: 14px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 0.95rem;
+      color: var(--text);
+      background: var(--blue-soft);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+      font-weight: 600;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: var(--blue-dark);
+      background: var(--white);
+      box-shadow: 0 0 0 4px rgba(43, 143, 208, 0.15);
+    }
+
+    select option {
+      background: var(--white);
+      color: var(--text);
+    }
+
+    /* === SWAP BTN === */
+    .swap-wrap {
+      display: flex;
+      align-items: flex-end;
+      padding-bottom: 2px;
+    }
+
+    #swapBtn {
+      width: 46px;
+      height: 46px;
+      border: 2px solid var(--blue-light);
+      border-radius: 12px;
+      background: var(--blue-soft);
+      color: var(--blue-dark);
+      font-size: 1.3rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+      padding: 0;
+    }
+
+    #swapBtn:hover {
+      background: var(--blue-light);
+      border-color: var(--blue-dark);
+      transform: rotate(180deg);
+    }
+
+    /* === DIVIDER === */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 18px 0 16px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--blue-light);
+    }
+
+    /* === BOUTON CONVERTIR === */
+    #convertBtn {
+      width: 100%;
+      padding: 16px;
+      border: none;
+      border-radius: 16px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 1rem;
+      font-weight: 800;
+      cursor: pointer;
+      background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+      color: white;
+      box-shadow: 0 4px 18px var(--shadow);
+      letter-spacing: 0.3px;
+      transition: transform 0.15s, box-shadow 0.2s;
+      margin-top: 6px;
+    }
+
+    #convertBtn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(43, 143, 208, 0.35);
+    }
+
+    #convertBtn:active {
+      transform: scale(0.98);
+    }
+
+    /* === MESSAGES === */
+    .msg {
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      display: none;
+      margin-bottom: 16px;
+      animation: pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes pop {
+      from {
+        opacity: 0;
+        transform: scale(0.92);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .msg.ok {
+      background: var(--blue-light);
+      color: var(--blue-darker);
+      border: 1px solid var(--blue);
+    }
+
+    .msg.err {
+      background: #FEE2E2;
+      color: #991B1B;
+      border: 1px solid #FCA5A5;
+    }
+
+    /* === RÉSULTAT === */
+    .result-box {
+      margin-top: 22px;
+      border-radius: 18px;
+      border: 2px solid var(--blue-light);
+      overflow: hidden;
+    }
+
+    .result-header {
+      background: linear-gradient(135deg, var(--blue-soft), var(--blue-light));
+      padding: 12px 18px;
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--blue-darker);
+      text-transform: uppercase;
+      letter-spacing: 0.9px;
+      border-bottom: 2px solid var(--blue-light);
+    }
+
+    .result-body {
+      padding: 4px 0;
+    }
+
+    .result-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--blue-soft);
+    }
+
+    .result-row:last-child {
+      border-bottom: none;
+    }
+
+    .result-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .result-value {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text);
+      text-align: right;
+      max-width: 60%;
+    }
+
+    #result {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--blue-dark);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="page-header">
+      <div class="header-badge">💱</div>
+      <h1>Exercice 3 — <em>Convertisseur</em></h1>
+      <p class="muted">API gratuite open.er-api.com — Taux en temps réel</p>
+    </div>
+
+    <div class="card">
+      <div id="msg" class="msg"></div>
+
+      <form id="form">
+        <p class="section-label">💹 Devises</p>
+        <div class="form-row">
+          <div class="field">
+            <label>De</label>
+            <select id="from"></select>
+          </div>
+          <div class="swap-wrap">
+            <button type="button" id="swapBtn" title="Inverser">⇄</button>
+          </div>
+          <div class="field">
+            <label>Vers</label>
+            <select id="to"></select>
+          </div>
+        </div>
+
+        <div class="divider">Montant</div>
+
+        <div class="field" style="margin-bottom: 18px;">
+          <label>💰 Valeur à convertir</label>
+          <input id="amount" type="number" step="0.01" min="0" value="1" />
+        </div>
+
+        <button type="submit" id="convertBtn">� Convertir maintenant</button>
+      </form>
+
+      <div class="result-box">
+        <div class="result-header">📊 Résultat de la conversion</div>
+        <div class="result-body">
+          <div class="result-row">
+            <span class="result-label">🏆 Résultat</span>
+            <span class="result-value"><span id="result">—</span></span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">📈 Taux appliqué</span>
+            <span class="result-value" id="rate">—</span>
+          </div>
+          <div class="result-row">
+            <span class="result-label">🕐 Mis à jour</span>
+            <span class="result-value" id="updated">—</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE = "https://open.er-api.com/v6/latest/";
+
+    const currencies = [
+      "MAD", "EUR", "USD", "GBP", "CAD", "CHF",
+      "JPY", "CNY", "AUD", "NZD", "SAR", "AED",
+      "QAR", "KWD", "EGP", "TND", "DZD", "TRY",
+      "SEK", "NOK",
+    ];
+
+    const fromEl = document.getElementById("from");
+    const toEl = document.getElementById("to");
+    const amountEl = document.getElementById("amount");
+    const form = document.getElementById("form");
+    const swapBtn = document.getElementById("swapBtn");
+    const msgEl = document.getElementById("msg");
+    const resultEl = document.getElementById("result");
+    const rateEl = document.getElementById("rate");
+    const updatedEl = document.getElementById("updated");
+
+    const ratesCache = {};
+
+    function showMessage(text, type = "ok") {
+      msgEl.textContent = text;
+      msgEl.className = `msg ${type}`;
+      msgEl.style.display = "block";
+      setTimeout(() => (msgEl.style.display = "none"), 2500);
+    }
+
+    function fillSelect(select, list, defaultValue) {
+      select.innerHTML = "";
+      list.forEach((code) => {
+        const opt = document.createElement("option");
+        opt.value = code;
+        opt.textContent = code;
+        select.appendChild(opt);
+      });
+      select.value = defaultValue;
+    }
+
+    async function getRates(base) {
+      if (ratesCache[base]) return ratesCache[base];
+      const res = await fetch(API_BASE + encodeURIComponent(base));
+      if (!res.ok) throw new Error("API indisponible");
+      const data = await res.json();
+      if (!data || data.result !== "success" || !data.rates) throw new Error("Réponse API invalide");
+      ratesCache[base] = { rates: data.rates, updated: data.time_last_update_utc || "—" };
+      return ratesCache[base];
+    }
+
+    function formatNumber(n) {
+      return new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 6 }).format(n);
+    }
+
+    async function convert() {
+      const from = fromEl.value;
+      const to = toEl.value;
+      const amount = parseFloat(amountEl.value);
+
+      if (!from || !to) { showMessage("Choisis les devises.", "err"); return; }
+      if (Number.isNaN(amount) || amount < 0) { showMessage("Montant invalide.", "err"); return; }
+
+      try {
+        resultEl.textContent = "Calcul en cours...";
+        rateEl.textContent = "—";
+        updatedEl.textContent = "—";
+
+        const { rates, updated } = await getRates(from);
+        const rate = rates[to];
+        if (!rate) throw new Error(`Taux introuvable pour ${to}`);
+
+        const converted = amount * rate;
+        resultEl.textContent = `${formatNumber(amount)} ${from} = ${formatNumber(converted)} ${to}`;
+        rateEl.textContent = `1 ${from} = ${formatNumber(rate)} ${to}`;
+        updatedEl.textContent = updated;
+
+        showMessage("Conversion réussie ✅");
+      } catch (err) {
+        showMessage("Erreur : impossible de récupérer le taux ❌", "err");
+        resultEl.textContent = "—";
+        rateEl.textContent = "—";
+        updatedEl.textContent = "—";
+      }
+    }
+
+    form.addEventListener("submit", (e) => { e.preventDefault(); convert(); });
+    swapBtn.addEventListener("click", () => {
+      const a = fromEl.value;
+      fromEl.value = toEl.value;
+      toEl.value = a;
+      convert();
+    });
+
+    fillSelect(fromEl, currencies, "MAD");
+    fillSelect(toEl, currencies, "EUR");
+    convert();
+  </script>
+</body>
+
+</html>
