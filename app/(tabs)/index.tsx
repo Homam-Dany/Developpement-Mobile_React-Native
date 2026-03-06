@@ -1,67 +1,122 @@
-import React from 'react';
-import { 
-  StyleSheet, 
-  Text, 
-  View, 
-  Image, 
-  FlatList, 
+import React from "react";
+import {
+  Alert,
+  FlatList,
+  Image,
   SafeAreaView,
+  StyleSheet,
+  Text,
   TouchableOpacity,
-  Alert
-} from 'react-native';
+  View,
+} from "react-native";
 
-// --- PARTIE 3 : Création des données (DATA) ---
 const DATA = [
-  { 
-    id: '1', 
-    titre: 'Les Jardins de Majorelle', 
-    pays: 'Maroc', 
-    image: 'https://images.unsplash.com/photo-1539020140153-e479b8c22e70?w=500&q=80' 
+  {
+    id: "1",
+    titre: "Les Jardins de Majorelle",
+    pays: "Maroc",
+    image:
+      "https://images.unsplash.com/photo-1539020140153-e479b8c22e70?w=500&q=80",
   },
-  { 
-    id: '2', 
-    titre: 'Plage et Marina d\'Agadir', 
-    pays: 'Maroc', 
-    image: 'https://images.unsplash.com/photo-1577971132997-c10be9372519?w=500&q=80' // Image d'ambiance marocaine/côtière
+  {
+    id: "2",
+    titre: "Marina d'Agadir",
+    pays: "Maroc",
+    image:
+      "https://images.unsplash.com/photo-1555880155-2e697d4c9889?w=500&q=80",
   },
-  { 
-    id: '3', 
-    titre: 'Tour Eiffel', 
-    pays: 'France', 
-    image: 'https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?w=500&q=80' 
+  {
+    id: "3",
+    titre: "Tour Eiffel",
+    pays: "France",
+    image:
+      "https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?w=500&q=80",
   },
-  { 
-    id: '4', 
-    titre: 'Temples de Kyoto', 
-    pays: 'Japon', 
-    image: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=500&q=80' 
+  {
+    id: "4",
+    titre: "Temples de Kyoto",
+    pays: "Japon",
+    image:
+      "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=500&q=80",
   },
-  { 
-    id: '5', 
-    titre: 'Plages de Bali', 
-    pays: 'Indonésie', 
-    image: 'https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=500&q=80' 
+  {
+    id: "5",
+    titre: "Plages de Bali",
+    pays: "Indonésie",
+    image:
+      "https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=500&q=80",
+  },
+  {
+    id: "6",
+    titre: "Times Square",
+    pays: "États-Unis",
+    image:
+      "https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=500&q=80",
+  },
+  {
+    id: "7",
+    titre: "Colisée de Rome",
+    pays: "Italie",
+    image:
+      "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=500&q=80",
+  },
+  {
+    id: "8",
+    titre: "Burj Khalifa",
+    pays: "Émirats",
+    image:
+      "https://images.unsplash.com/photo-1582672060674-bc2bd808a8b5?w=500&q=80",
+  },
+  {
+    id: "9",
+    titre: "Oia, Santorin",
+    pays: "Grèce",
+    image:
+      "https://images.unsplash.com/photo-1613395877344-13d4a8e0d49e?w=500&q=80",
+  },
+  {
+    id: "10",
+    titre: "Machu Picchu",
+    pays: "Pérou",
+    image:
+      "https://images.unsplash.com/photo-1526392060635-9d6019884377?w=500&q=80",
+  },
+  {
+    id: "11",
+    titre: "Londres",
+    pays: "Royaume-Uni",
+    image:
+      "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=500&q=80",
+  },
+  {
+    id: "12",
+    titre: "Opéra de Sydney",
+    pays: "Australie",
+    image:
+      "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?w=500&q=80",
+  },
+  {
+    id: "13",
+    titre: "Rio de Janeiro",
+    pays: "Brésil",
+    image:
+      "https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=500&q=80",
   },
 ];
 
-// --- PARTIE 3 & 4 : Composant Item personnalisé ---
 const DestinationItem = ({ destination }) => (
   <View style={styles.card}>
     <Image source={{ uri: destination.image }} style={styles.cardImage} />
-    
-    {/* Ajout d'une marge interne (padding) - Étape 4.3 */}
     <View style={styles.cardInfo}>
       <Text style={styles.cardTitle}>{destination.titre}</Text>
-      
-      {/* Utilisation de flexDirection: 'row', alignItems et justifyContent - Étapes 4.1 & 4.2 */}
       <View style={styles.badgeRow}>
         <View style={styles.badge}>
           <Text style={styles.badgeText}>{destination.pays}</Text>
         </View>
-        
-        {/* Rendre le texte "Explorer" cliquable */}
-        <TouchableOpacity 
-          onPress={() => Alert.alert("En route !", `Vous avez choisi : ${destination.titre}`)}
+        <TouchableOpacity
+          onPress={() =>
+            Alert.alert("En route !", `Vous avez choisi : ${destination.titre}`)
+          }
         >
           <Text style={styles.exploreText}>Explorer ➔</Text>
         </TouchableOpacity>
@@ -71,16 +126,14 @@ const DestinationItem = ({ destination }) => (
 );
 
 export default function App() {
-
-  // --- PARTIE 2 : Mise en page de l'accueil (Bannière) ---
   const renderHeader = () => (
     <View style={styles.headerContainer}>
-      {/* 2.1 - Image distante via URL et 2.4 - Hauteur fixe */}
       <Image
-        source={{ uri: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&q=80' }}
+        source={{
+          uri: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800&q=80",
+        }}
         style={styles.bannerImage}
       />
-      {/* 2.2 et 2.4 - Titre, description et texte centré */}
       <View style={styles.headerTextContainer}>
         <Text style={styles.headerTitle}>Découvrez le Monde</Text>
         <Text style={styles.headerDescription}>
@@ -92,15 +145,12 @@ export default function App() {
   );
 
   return (
-    // SafeAreaView permet d'éviter que le contenu passe sous l'encoche de l'écran (notch)
     <SafeAreaView style={styles.container}>
-      {/* PARTIE 3 : Affichage avec FlatList optimisée */}
       <FlatList
         data={DATA}
-        keyExtractor={item => item.id}
+        keyExtractor={(item) => item.id}
         renderItem={({ item }) => <DestinationItem destination={item} />}
-        // Le header remplace la ScrollView globale pour de meilleures performances
-        ListHeaderComponent={renderHeader} 
+        ListHeaderComponent={renderHeader}
         contentContainerStyle={styles.listContainer}
         showsVerticalScrollIndicator={false}
       />
@@ -108,91 +158,105 @@ export default function App() {
   );
 }
 
-// --- STYLES (StyleSheet) ---
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F7FA',
+    backgroundColor: "#F8FAFC",
   },
   listContainer: {
-    paddingBottom: 30, 
+    paddingBottom: 30,
   },
-  
-  // Styles de la Bannière (Partie 2)
   headerContainer: {
     marginBottom: 20,
-    backgroundColor: '#fff',
-    paddingBottom: 15,
+    backgroundColor: "#FFFFFF",
+    paddingBottom: 25,
     borderBottomWidth: 1,
-    borderColor: '#eaeaea',
+    borderColor: "#E2E8F0",
   },
   bannerImage: {
-    width: '100%',
-    height: 220, 
+    width: "100%",
+    height: 250,
   },
   headerTextContainer: {
-    padding: 15,
-    alignItems: 'center', 
+    padding: 20,
+    alignItems: "center",
+    marginTop: -50,
+    backgroundColor: "rgba(255, 255, 255, 0.95)",
+    marginHorizontal: 16,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "#E2E8F0",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.05,
+    shadowRadius: 10,
+    elevation: 3,
   },
   headerTitle: {
-    fontSize: 26,
-    fontWeight: 'bold',
-    color: '#2C3E50',
+    fontSize: 28,
+    fontWeight: "900",
+    color: "#0F172A",
     marginBottom: 8,
-    textAlign: 'center', 
+    textAlign: "center",
+    letterSpacing: 1,
   },
   headerDescription: {
     fontSize: 15,
-    color: '#7F8C8D',
-    textAlign: 'center', 
-    lineHeight: 22,
+    color: "#475569",
+    textAlign: "center",
+    lineHeight: 24,
   },
-
-  // Styles des Cartes (Parties 3 & 4)
   card: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 16, 
+    backgroundColor: "#FFFFFF",
+    borderRadius: 24,
     marginHorizontal: 16,
-    marginBottom: 16,
-    shadowColor: '#000', 
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 4, 
-    overflow: 'hidden', 
+    marginBottom: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.06,
+    shadowRadius: 12,
+    elevation: 4,
+    overflow: "hidden",
   },
   cardImage: {
-    width: '100%',
-    height: 180,
+    width: "100%",
+    height: 200,
   },
   cardInfo: {
-    padding: 16, 
+    padding: 20,
   },
   cardTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#333',
-    marginBottom: 12,
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#0F172A",
+    marginBottom: 16,
   },
   badgeRow: {
-    flexDirection: 'row', 
-    justifyContent: 'space-between', 
-    alignItems: 'center', 
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   badge: {
-    backgroundColor: '#3498DB',
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 20,
+    backgroundColor: "#E0F2FE",
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 24,
   },
   badgeText: {
-    color: '#FFF',
+    color: "#0284C7",
     fontSize: 13,
-    fontWeight: '600',
+    fontWeight: "700",
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
   },
   exploreText: {
-    color: '#3498DB',
-    fontWeight: 'bold',
-    fontSize: 14,
-  }
+    color: "#FFFFFF",
+    fontWeight: "bold",
+    fontSize: 15,
+    backgroundColor: "#38BDF8",
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 24,
+    overflow: "hidden",
+  },
 });
